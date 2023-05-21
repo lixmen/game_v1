@@ -1,11 +1,18 @@
+const { models } = require('../Sequelize/database/sequelize');
 
 // Création de compte d'un utilisateur
-exports.signin = (req, res, next) => {
-    res.json('signin', 200);
+exports.signup = async (req, res, next) => {
+    await models.User.create(req.body)
+    .then(data => {
+        res.status(201).json('Compte crée avec succés.');
+    })
+    .catch(err => {
+        throw new Error(err);
+    })
 };
 
 // Connexion d'un utilisateur
-exports.signup = (req, res, next) => {
+exports.signin = (req, res, next) => {
     res.json('signup', 200);
 };
 
