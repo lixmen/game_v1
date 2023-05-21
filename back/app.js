@@ -5,8 +5,7 @@ const logger        = require('morgan');
 const path          = require('path');
 const app           = express();
 const router        = require('./routes');
-const debug         = require('debug')('back:middlewares');
-require('./database/sequelize');
+const sequelize     = require('./Sequelize/database/sequelize');
 
 // Setting view engines
 app.set('views', path.join(__dirname, 'views'));
@@ -19,9 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-debug('aprés le router');
 //Router
-app.use(router);
+app.use('/api', router);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,6 +35,18 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
+});
+
+sequelize.authenticate().then(() => {
+    console.log('Connection à sequelize réussi.');
+}).catch((error) => {
+    console.error('Erreur de connection à sequelize.', error);
+});
+
+sequelize.sync({force: true}).then(() => {
+    console.log('Synchro à sequelize réussi.');
+}).catch((error) => {
+    console.error('Erreur de connection à sequelize.', error);
 });
 
 module.exports = app;
