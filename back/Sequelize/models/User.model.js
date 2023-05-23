@@ -1,7 +1,19 @@
-const bcrypt = require("bcrypt");
+const bcrypt    = require("bcrypt");
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('User', {
+    class User extends Model {
+
+        // A voir pour définir les associations ici
+        static associate(models) { };
+
+        // Definir les différentes methodes de class ici
+        checkPassword(password) {
+            return bcrypt.compareSync(password, this.password);
+        };
+    }
+
+    User.init({
         username: {
             type: DataTypes.STRING(25),
             allowNull: false,
@@ -21,5 +33,10 @@ module.exports = (sequelize, DataTypes) => {
                 this.setDataValue('password', hash )
             }
         },
+    }, {
+        sequelize,
+        modelName: 'User'
     });
+
+    return User;
 };
