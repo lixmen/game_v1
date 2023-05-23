@@ -33,8 +33,7 @@ app.use(function(err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
   
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    res.status(err.status || 500).json(req.app.get('env') === 'development' ? err.message : 'Une erreur est survenue!');
 });
 
 sequelize.authenticate().then(() => {
@@ -45,6 +44,11 @@ sequelize.authenticate().then(() => {
 
 sequelize.sync({force: true}).then(() => {
     console.log('Synchro à sequelize réussi.');
+    sequelize.models.User.create({
+        username: 'username',
+        password: 'password',
+        email: 'email@email.fr'
+    })
 }).catch((error) => {
     console.error('Erreur de connection à sequelize.', error);
 });
