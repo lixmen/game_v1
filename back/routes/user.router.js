@@ -1,5 +1,6 @@
-const express = require('express');
-const router  = express.Router();
+const express   = require('express');
+const router    = express.Router();
+const { guard } = require('../middleware/auth/auth');
 const {
     signinSanitization,
     signupSanitization,
@@ -15,8 +16,8 @@ const {
 
 router.post('/signup', signupSanitization, signup);
 router.post('/signin', signinSanitization, signin);
-router.get('/logout', logout);
-router.delete('/delete', deleteUser);
-router.put('/password', changePasswordSanitization, changePassword);
+router.get('/logout', guard, logout);
+router.delete('/delete', guard, deleteUser);
+router.put('/password', guard, changePasswordSanitization, changePassword);
 
 module.exports = router;

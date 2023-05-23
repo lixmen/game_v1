@@ -1,6 +1,5 @@
 const { models }    = require('../Sequelize/database/sequelize');
 const jwt           = require('jsonwebtoken');
-const { token }     = require('morgan');
 require('dotenv').config();
 
 // Création de compte d'un utilisateur
@@ -38,6 +37,7 @@ exports.signin = async (req, res, next) => {
 
 // Déconnexion d'un utilisateur
 exports.logout = (req, res, next) => {
+    res.clearCookie('jwt');
     res.json('logout', 200);
 }
 
