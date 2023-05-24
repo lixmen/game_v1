@@ -2,7 +2,7 @@ const { check, validationResult } = require('express-validator');
 
 const errorhandler = (req, res, next) => {
     const errors = !validationResult(req).isEmpty() ? validationResult(req).array() : null;
-    if (errors !== null) { throw new Error(errors[0].msg) };
+    if (errors !== null) { throw new Error(errors) };
     next();
 }
 

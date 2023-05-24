@@ -1,5 +1,6 @@
 const { models }    = require('../Sequelize/database/sequelize');
 const jwt           = require('jsonwebtoken');
+const { token }     = require('morgan');
 require('dotenv').config();
 
 // Création de compte d'un utilisateur
@@ -22,7 +23,7 @@ exports.signin = async (req, res, next) => {
     if (!user) { return res.status(404).json('L\'utilisateur recherché n\'existe pas.') };
     if (!user.checkPassword(password)) { return res.status(400).json('Mot de passe incorrect.') };
 
-    const token = jwt.sign({
+    const token = await jwt.sign({
         userId: user.id,
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 14)
     }, process.env.JWT_PWD);
@@ -37,7 +38,6 @@ exports.signin = async (req, res, next) => {
 
 // Déconnexion d'un utilisateur
 exports.logout = (req, res, next) => {
-    res.clearCookie('jwt');
     res.json('logout', 200);
 }
 
