@@ -42,8 +42,19 @@ exports.logout = (req, res, next) => {
 }
 
 // Modification de mot de passe utilisateur
-exports.changePassword = (req, res, next) => {
-    res.json('change password', 200);
+exports.changePassword = async (req, res, next) => {
+    try {
+        const {password, newPassword} = req.body;
+
+        if (!req.user.checkPassword(password)) { return res.status(400).json('Mot de passe incorrect.') };
+    
+        await req.user.update({password: newPassword})
+        res.json('Mot de passe modifié', 200);
+    } 
+    catch(err) 
+    {
+        next(err);
+    }
 }
 
 // Suppression d'un utilisateur
