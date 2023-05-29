@@ -21,5 +21,6 @@ exports.signinSanitization = [
 
 exports.changePasswordSanitization = [
     check('password').trim().escape().isLength({min: 5, max: 20}).withMessage('Le mot de passe doit contenir entre 5 et 20 caractères'),
+    check('newPassword').trim().escape().isLength({min: 5, max: 20}).withMessage('Le nouveau mot de passe doit contenir entre 5 et 20 caractères'),
     errorhandler
 ]
