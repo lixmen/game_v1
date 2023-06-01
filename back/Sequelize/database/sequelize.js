@@ -10,12 +10,13 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 // Récupération des models
 const modelList = [
     require('../models/User.model'),
+    require('../models/Role.model')
 ];
 
 // Déclaration des models a sequelize
 modelList.forEach(model  => model(sequelize, DataTypes));
 
 // Création des relations des models
-applyTablesRelations(sequelize);
+applyTablesRelations(sequelize.models);
 
 module.exports = sequelize;

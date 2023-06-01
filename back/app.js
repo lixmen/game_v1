@@ -46,11 +46,24 @@ sequelize.authenticate().then(() => {
 
 sequelize.sync({force: true}).then(() => {
     console.log('Synchro à sequelize réussi.');
-    sequelize.models.User.create({
-        username: 'username',
-        password: 'password',
-        email: 'email@email.fr'
-    })
+
+    const roles = [{name: 'ROLE_USER'}, {name: 'ROLE_ADMIN'}];
+    sequelize.models.Role.bulkCreate(roles);
+
+    sequelize.models.User.bulkCreate([
+        {
+            username: 'username',
+            password: 'password',
+            email: 'email@email.fr',
+            role_id: 2
+        },
+        {
+            username: 'username1',
+            password: 'password1',
+            email: 'email1@email.fr',
+            role_id: 2
+        },
+    ]);
 }).catch((error) => {
     console.error('Erreur de connection à sequelize.', error);
 });

@@ -11,7 +11,7 @@ exports.signup = async (req, res, next) => {
         res.status(201).json('Compte crée avec succés.');
     })
     .catch(err => {
-        throw new Error(err.message);
+        next(err);
     })
 };
 
@@ -70,6 +70,6 @@ exports.changePassword = async (req, res, next) => {
 /**
  * Suppression d'un utilisateur
  */
-exports.deleteUser = (req, res, next) => {
+exports.deleteUser = async (req, res, next) => {
     res.json('delete', 200);
 }

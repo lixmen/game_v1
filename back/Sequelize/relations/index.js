@@ -1,8 +1,9 @@
-function applyTablesRelations(sequelize) {
-	// const { instrument, orchestra } = sequelize.models;
+function applyTablesRelations(models) {
+	Object.values(models)
+		.filter(model => typeof model.associate === "function")
+		.forEach(model => model.associate(models));
+}	
 
-	// orchestra.hasMany(instrument);
-	// instrument.belongsTo(orchestra);
-}
+
 
 module.exports = { applyTablesRelations };

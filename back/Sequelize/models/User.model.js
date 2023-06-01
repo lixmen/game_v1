@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     class User extends Model {
 
         // A voir pour définir les associations ici
-        static associate(models) { };
+        static associate(models) { 
+            User.hasOne(models.Role, { foreignKey: 'users_id' });
+        };
 
         // Definir les différentes methodes de class ici
         checkPassword(password) {
