@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "SET DEBUG=back:* SET NODE_ENV=developement & nodemon ./bin/www",
-    "start:prod": "SET NODE_ENV=production & node ./bin/www"
+    "start:prod": "SET NODE_ENV=production & node ./bin/www",
+    "sync": "node ./database/utils/database_sync.js"
   },
   "author": "Kevin Hersin",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "morgan": "^1.10.0",
     "mysql2": "^3.3.0",
     "nodemon": "^2.0.22",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "sequelize-cli": "^6.6.1"
   }
 }

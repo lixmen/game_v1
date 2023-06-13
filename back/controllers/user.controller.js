@@ -1,4 +1,4 @@
-const { models }            = require('../Sequelize/database/sequelize');
+const { models }                           = require('../database/utils/connexion');
 const { createJwtToken, sendJwtCookie }    = require('../middleware/auth/auth');
 require('dotenv').config();
 

@@ -1,5 +1,5 @@
 const jwt        = require('jsonwebtoken');
-const { models } = require('../../Sequelize/database/sequelize');
+const { models } = require('../../database/utils/connexion');
 require('dotenv').config();
 
 /**
@@ -22,7 +22,7 @@ exports.createJwtToken = (userId) => {
     return jwt.sign({
         userId: userId,
         exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 14)
-    }, process.env.JWT_PWD);
+    }, process.env.JWT_PASSWORD);
 };
 
 /**
@@ -52,7 +52,7 @@ exports.checkTokenExpiration = (token, response) => {
     { 
         const refreshedToken      =   createJwtToken(token.userId);
         this.sendJwtCookie(refreshedToken, response);
-        return jwt.verify(refreshedToken, process.env.JWT_PWD)
+        return jwt.verify(refreshedToken, process.env.JWT_PASSWORD)
     } 
     else 
     {                                                                
@@ -73,7 +73,7 @@ exports.extractUserFromToken = async (req, res, next) => {
             return next() 
         };
     
-        let decodedToken    =   jwt.verify(token, process.env.JWT_PWD, { ignoreExpiration: true }); 
+        let decodedToken    =   jwt.verify(token, process.env.JWT_PASSWORD, { ignoreExpiration: true }); 
         decodedToken        =   this.checkTokenExpiration(decodedToken, res); 
         const user          =   await models.User.findByPk(decodedToken.userId);
 
